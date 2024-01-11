@@ -9,7 +9,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
  */
 export const categoryRouter = createTRPCRouter({
   getCategories: protectedProcedure.query(async ({ ctx }) => {
-    console.log("getCategories");
     return await ctx.db.category.findMany({
       where: {
         OR: [

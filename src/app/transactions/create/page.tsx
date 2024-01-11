@@ -3,30 +3,30 @@ import Title from "antd/es/typography/Title";
 
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { CategoryFormServer } from "~/app/_components/categories/CategoryForm.server";
 import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
+import { TransactionFormServer } from "~/app/_components/transactions/TransactionForm.server";
 
-export default function CreateCategoryPage() {
+export default function CreateTransactionPage() {
   return (
     <ProtectedRoute>
       <SidebarContainer>
         <ContentContainer
           header={
             <Title level={2} className="mb-0">
-              Create Category
+              Create Transaction
             </Title>
           }
         >
           <Suspense
             fallback={
               <LoadingDetail
-                title="Loading Category Creator"
+                title="Loading Transaction Creator"
                 description="This may take a few seconds"
               />
             }
           >
-            <CategoryFormServer />
+            <TransactionFormServer />
           </Suspense>
         </ContentContainer>
       </SidebarContainer>

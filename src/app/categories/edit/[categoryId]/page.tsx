@@ -7,7 +7,7 @@ import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRou
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 
-export default function HomePage({
+export default function EditCategoryPage({
   params: { categoryId },
 }: {
   params: { categoryId: string };

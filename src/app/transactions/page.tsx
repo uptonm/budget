@@ -1,32 +1,42 @@
 import { Suspense } from "react";
-import Title from "antd/es/typography/Title";
+import Link from "next/link";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { CategoryFormServer } from "~/app/_components/categories/CategoryForm.server";
+import { TransactionTableServer } from "~/app/_components/transactions/TransactionTable.server";
 import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
+import Title from "antd/es/typography/Title";
 
-export default function CreateCategoryPage() {
+export default function TransactionListPage() {
   return (
     <ProtectedRoute>
       <SidebarContainer>
         <ContentContainer
           header={
             <Title level={2} className="mb-0">
-              Create Category
+              Transactions
             </Title>
+          }
+          action={
+            <Link href="/transactions/create">
+              <Button type="primary" icon={<PlusOutlined />}>
+                Create Transaction
+              </Button>
+            </Link>
           }
         >
           <Suspense
             fallback={
               <LoadingDetail
-                title="Loading Category Creator"
+                title="Loading Transactions"
                 description="This may take a few seconds"
               />
             }
           >
-            <CategoryFormServer />
+            <TransactionTableServer />
           </Suspense>
         </ContentContainer>
       </SidebarContainer>

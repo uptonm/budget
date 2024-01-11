@@ -14,6 +14,25 @@ export namespace TransactionType {
   }
 }
 
+export namespace TransactionFrequency {
+  export function toString(type: $Enums.TransactionFrequency) {
+    switch (type) {
+      case $Enums.TransactionFrequency.DAILY:
+        return "Daily";
+      case $Enums.TransactionFrequency.WEEKLY:
+        return "Weekly";
+      case $Enums.TransactionFrequency.BI_WEEKLY:
+        return "Bi-Weekly";
+      case $Enums.TransactionFrequency.MONTHLY:
+        return "Monthly";
+      case $Enums.TransactionFrequency.QUARTERLY:
+        return "Quarterly";
+      case $Enums.TransactionFrequency.YEARLY:
+        return "Yearly";
+    }
+  }
+}
+
 export namespace CategoryOwnerType {
   export function toString(type: $Enums.CategoryOwnerType) {
     switch (type) {

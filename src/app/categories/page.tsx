@@ -10,7 +10,7 @@ import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
 import Title from "antd/es/typography/Title";
 
-export default function HomePage() {
+export default function CategoryListPage() {
   return (
     <ProtectedRoute>
       <SidebarContainer>

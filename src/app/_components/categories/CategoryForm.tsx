@@ -142,7 +142,7 @@ export function CategoryForm({
         <FormItem
           colon
           hasFeedback
-          label="type"
+          label="Type"
           labelCol={{ span: 24 }}
           validateStatus={formik.errors.type ? "error" : ""}
           help={<ErrorMessage name="type" className="text-red" />}
