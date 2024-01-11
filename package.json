@@ -21,6 +21,8 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "@vercel/analytics": "^1.1.1",
+    "@vercel/speed-insights": "^1.0.2",
     "ag-grid-community": "^31.0.1",
     "ag-grid-react": "^31.0.1",
     "antd": "^5.12.8",

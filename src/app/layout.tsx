@@ -4,6 +4,8 @@ import { ConfigProvider } from "antd";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { ClientContainer } from "~/app/_components/shared/containers/ClientContainer";
 import StyledComponentsRegistry from "~/lib/StyledComponentsRegistry";
@@ -61,6 +63,8 @@ export default function RootLayout({
             </TRPCReactProvider>
           </ConfigProvider>
         </StyledComponentsRegistry>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
