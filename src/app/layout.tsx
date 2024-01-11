@@ -4,7 +4,7 @@ import { ConfigProvider } from "antd";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
-import { ClientContainer } from "~/app/_components/containers/ClientContainer";
+import { ClientContainer } from "~/app/_components/shared/containers/ClientContainer";
 import StyledComponentsRegistry from "~/lib/StyledComponentsRegistry";
 import { TRPCReactProvider } from "~/trpc/react";
 

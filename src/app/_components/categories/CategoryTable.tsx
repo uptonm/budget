@@ -6,6 +6,7 @@ import type { ColDef, GridApi, ValueFormatterParams } from "ag-grid-community";
 import type { BaseColDefOptionalDataParams } from "ag-grid-community/dist/lib/entities/colDef";
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
+import { EditOutlined } from "@ant-design/icons";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Popconfirm } from "antd";
 import classNames from "classnames";
@@ -59,7 +60,10 @@ const categoryTableColumns: ColDef<Category>[] = [
     headerName: "Actions",
     cellRenderer: (params: BaseColDefOptionalDataParams<Category>) =>
       params.data?.ownerType === $Enums.CategoryOwnerType.USER && (
-        <Link href={`/categories/edit/${params.data.id}`}>Edit</Link>
+        <Link href={`/categories/edit/${params.data.id}`} className="space-x-2">
+          <EditOutlined />
+          <span>Edit</span>
+        </Link>
       ),
   },
 ];

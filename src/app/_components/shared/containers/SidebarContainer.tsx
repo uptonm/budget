@@ -9,6 +9,7 @@ import {
 import type { MenuProps } from "antd";
 import { Avatar, Layout, Menu } from "antd";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useState } from "react";
 
@@ -91,11 +92,13 @@ export const Sidebar: React.FC = () => {
           {
             key: "authenticated",
             icon: (
-              <Avatar
-                className="-ml-1.5"
-                src={session.data.user.image}
-                alt={session.data.user.name ?? "Profile Image"}
-              />
+              <Link href="/profile">
+                <Avatar
+                  className="-ml-1.5"
+                  src={session.data.user.image}
+                  alt={session.data.user.name ?? "Profile Image"}
+                />
+              </Link>
             ),
             label: session.data.user.name,
           },

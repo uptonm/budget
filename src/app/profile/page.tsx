@@ -1,19 +1,24 @@
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
-import Title from "antd/es/typography/Title";
+import { ProfilePageServer } from "~/app/_components/profile/ProfilePage.server";
+import { Suspense } from "react";
+import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 
 export default function HomePage() {
   return (
     <ProtectedRoute>
       <SidebarContainer>
-        <ContentContainer
-          header={
-            <Title level={2} className="mb-0">
-              Home
-            </Title>
+        <Suspense
+          fallback={
+            <LoadingDetail
+              title="Loading Profile"
+              description="This may take a few seconds"
+            />
           }
-        />
+        >
+          <ProfilePageServer />
+        </Suspense>
       </SidebarContainer>
     </ProtectedRoute>
   );

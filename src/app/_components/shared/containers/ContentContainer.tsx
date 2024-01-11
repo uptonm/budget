@@ -2,11 +2,11 @@
 
 import { Layout, theme } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import Title from "antd/es/typography/Title";
 import type { ReactNode } from "react";
+import { GithubOutlined } from "@ant-design/icons";
 
 type PageProps = {
-  header: string;
+  header: ReactNode;
   action?: ReactNode;
 };
 
@@ -22,14 +22,20 @@ export const ContentContainer = ({
         className="flex items-center justify-between px-4 py-2"
         style={{ background: token.colorBgContainer }}
       >
-        <Title level={2} className="mb-0">
-          {header}
-        </Title>
+        {header}
         {action}
       </Header>
       <Content style={{ margin: "0 16px" }}>{children}</Content>
-      <Footer style={{ textAlign: "center" }}>
-        App Router Sandbox ©2023 Created by Mike Upton
+      <Footer className="space-x-2 text-center">
+        <span>Budget ©2024 Created by</span>
+        <a
+          target="_blank"
+          className="space-x-1"
+          href="https://github.com/uptonm"
+        >
+          <GithubOutlined />
+          <span>Mike Upton</span>
+        </a>
       </Footer>
     </Layout>
   );

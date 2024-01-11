@@ -10,8 +10,8 @@ import { useEffect } from "react";
 import { Button, Popconfirm } from "antd";
 import Link from "next/link";
 
-import { Input } from "~/app/_components/form/Input";
-import Select from "~/app/_components/form/Select";
+import { Input } from "~/app/_components/shared/form/Input";
+import Select from "~/app/_components/shared/form/Select";
 import { TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
 

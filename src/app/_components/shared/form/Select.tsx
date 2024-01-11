@@ -5,7 +5,9 @@ import { type SelectProps as $SelectProps } from "antd/lib/select";
 import { type FieldProps } from "formik";
 import * as React from "react";
 
-import Field, { type FormikFieldProps } from "~/app/_components/form/Field";
+import Field, {
+  type FormikFieldProps,
+} from "~/app/_components/shared/form/Field";
 
 /**
  * @see https://github.com/jannikbuschke/formik-antd/blob/master/src/select/index.tsx
