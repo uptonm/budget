@@ -74,13 +74,12 @@ export function CategoryTable({ categories }: CategoryTableProps) {
   const [tableRows, setTableRows] = useState<Category[]>(categories);
   const [rowSelection, setRowSelection] = useState<string[]>([]);
 
-  const { refetch, isLoading: refetchLoading } =
-    api.category.getCategories.useQuery(undefined, {
-      onSuccess: (data) => {
-        setTableRows(data);
-        gridApi.current?.hideOverlay();
-      },
-    });
+  const { refetch } = api.category.getCategories.useQuery(undefined, {
+    onSuccess: (data) => {
+      setTableRows(data);
+      gridApi.current?.hideOverlay();
+    },
+  });
   const { mutateAsync: deleteCategoriesFn, isLoading: deleteFnLoading } =
     api.category.deleteCategories.useMutation();
 

@@ -1,4 +1,3 @@
-import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
 import { ProfilePageServer } from "~/app/_components/profile/ProfilePage.server";
