@@ -26,13 +26,14 @@ export const uploadRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async () => {
-      const session = await getServerAuthSession();
-      if (!session || !session.user) {
-        throw new Error("Unauthorized");
-      }
+    .middleware(() => {
+      // const session = await getServerAuthSession();
+      // if (!session || !session.user) {
+      //   throw new Error("Unauthorized");
+      // }
 
-      return { userId: session.user.id };
+      // return { userId: session.user.id };
+      return {};
     })
     .onUploadComplete(({ file }) => {
       console.log("File uploaded", file);
