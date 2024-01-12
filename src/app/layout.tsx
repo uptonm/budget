@@ -2,7 +2,7 @@ import "~/styles/globals.css";
 
 import { ConfigProvider } from "antd";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -58,7 +58,7 @@ export default function RootLayout({
       >
         <StyledComponentsRegistry>
           <ConfigProvider theme={{ hashed: false }}>
-            <TRPCReactProvider headers={headers()}>
+            <TRPCReactProvider cookies={cookies().toString()}>
               <ClientContainer>{children}</ClientContainer>
             </TRPCReactProvider>
           </ConfigProvider>

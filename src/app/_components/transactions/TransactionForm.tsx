@@ -29,7 +29,6 @@ const formValidationSchema = z.object({
 type TransactionFormProps = {
   transaction: Transaction | null;
   categories: Category[];
-  userId: string;
   clearCachesByServerAction: (path?: string) => void;
 };
 
