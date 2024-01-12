@@ -1,4 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { z } from "zod";
 
 /**
  * This is the primary router for your server.
@@ -13,4 +14,21 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+  updateProfileImage: protectedProcedure
+    .input(
+      z.object({
+        imageUrl: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          image: input.imageUrl,
+        },
+      });
+      return true;
+    }),
 });
