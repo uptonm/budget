@@ -1,10 +1,7 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-
 import { clearCachesByServerAction } from "~/app/_actions/revalidatePaths";
 import { TransactionForm } from "~/app/_components/transactions/TransactionForm";
-import { authOptions } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 type TransactionFormServerProps = {
@@ -14,7 +11,6 @@ type TransactionFormServerProps = {
 export async function TransactionFormServer({
   transactionId,
 }: TransactionFormServerProps) {
-  const session = await getServerSession(authOptions);
   const transaction = transactionId
     ? (await api.transaction.getTransactionById.query({ id: transactionId })) ??
       null
@@ -25,7 +21,6 @@ export async function TransactionFormServer({
     <TransactionForm
       categories={categories}
       transaction={transaction}
-      userId={session!.user.id}
       clearCachesByServerAction={clearCachesByServerAction}
     />
   );

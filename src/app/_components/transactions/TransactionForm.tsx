@@ -1,19 +1,19 @@
 "use client";
 
-import { $Enums, Category, type Transaction } from "@prisma/client";
+import { $Enums, type Category, type Transaction } from "@prisma/client";
+import { Button, Popconfirm } from "antd";
 import FormItem from "antd/lib/form/FormItem";
 import classNames from "classnames";
 import { ErrorMessage, Form, FormikProvider, useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ZodError, z } from "zod";
-import { Button, Popconfirm } from "antd";
-import Link from "next/link";
 
 import { Input } from "~/app/_components/shared/form/Input";
+import { InputNumber } from "~/app/_components/shared/form/InputNumber";
 import Select from "~/app/_components/shared/form/Select";
 import { TransactionFrequency, TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
-import { InputNumber } from "~/app/_components/shared/form/InputNumber";
 import { DatePicker } from "../shared/form/DatePicker";
 
 const formValidationSchema = z.object({
@@ -36,7 +36,6 @@ type TransactionFormProps = {
 export function TransactionForm({
   transaction,
   categories,
-  userId,
   clearCachesByServerAction,
 }: TransactionFormProps) {
   const router = useRouter();

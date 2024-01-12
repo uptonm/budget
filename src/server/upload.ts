@@ -1,7 +1,6 @@
 import { createUploadthing } from "uploadthing/next";
 import type { FileRouter } from "uploadthing/next";
 import { getServerAuthSession } from "./auth";
-import { api } from "~/trpc/server";
 
 const f = createUploadthing({
   /**
@@ -35,7 +34,7 @@ export const uploadRouter = {
 
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ file }) => {
+    .onUploadComplete(({ file }) => {
       console.log("File uploaded", file);
     }),
 } satisfies FileRouter;
