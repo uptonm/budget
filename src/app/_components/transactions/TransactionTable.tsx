@@ -39,7 +39,7 @@ const generateTransactionTableColumns = (
   {
     field: "amount",
     valueFormatter: (params: ValueFormatterParams<Transaction, number>) =>
-      formatCurrency(params.value),
+      formatCurrency(params.value ?? undefined),
   },
   {
     field: "date",
