@@ -2,7 +2,7 @@
 import { $Enums } from "@prisma/client";
 
 export namespace TransactionType {
-  export function toString(type: $Enums.TransactionType) {
+  export function toString(type: $Enums.TransactionType): string {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:
         return "Expenses";
@@ -13,7 +13,7 @@ export namespace TransactionType {
     }
   }
 
-  export function toRoute(type: $Enums.TransactionType) {
+  export function toRoute(type: $Enums.TransactionType): string {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:
         return "/expenses";
@@ -26,8 +26,10 @@ export namespace TransactionType {
 }
 
 export namespace TransactionFrequency {
-  export function toString(type: $Enums.TransactionFrequency) {
+  export function toString(type: $Enums.TransactionFrequency): string {
     switch (type) {
+      case $Enums.TransactionFrequency.NON_RECURRING:
+        return "Non-Recurring";
       case $Enums.TransactionFrequency.DAILY:
         return "Daily";
       case $Enums.TransactionFrequency.WEEKLY:
@@ -36,6 +38,8 @@ export namespace TransactionFrequency {
         return "Bi-Weekly";
       case $Enums.TransactionFrequency.MONTHLY:
         return "Monthly";
+      case $Enums.TransactionFrequency.BI_MONTHLY:
+        return "Bi-Monthly";
       case $Enums.TransactionFrequency.QUARTERLY:
         return "Quarterly";
       case $Enums.TransactionFrequency.YEARLY:
@@ -45,7 +49,7 @@ export namespace TransactionFrequency {
 }
 
 export namespace CategoryOwnerType {
-  export function toString(type: $Enums.CategoryOwnerType) {
+  export function toString(type: $Enums.CategoryOwnerType): string {
     switch (type) {
       case $Enums.CategoryOwnerType.SYSTEM:
         return "System";

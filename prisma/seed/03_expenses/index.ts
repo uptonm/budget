@@ -11,7 +11,7 @@ export async function seedRealisticTransactions(
     console.log("Seeding realistic transactions");
     const systemUser = await client.user.findUniqueOrThrow({
       where: {
-        email: SYSTEM_USER_EMAIL,
+        email: "uptonm.dev@gmail.com",
       },
     });
 
@@ -39,7 +39,7 @@ export async function seedRealisticTransactions(
         where: {
           type,
           frequency,
-          date: new Date(transaction.date),
+          date: new Date(transaction.date * 1000),
           userId: systemUser.id,
           name: transaction.name,
           amount: transaction.amount,
@@ -74,7 +74,7 @@ export async function seedRealisticTransactions(
           data: {
             type,
             frequency,
-            date: new Date(transaction.date),
+            date: new Date(transaction.date * 1000),
             userId: systemUser.id,
             name: transaction.name,
             amount: transaction.amount,
