@@ -8,18 +8,25 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const transactionRouter = createTRPCRouter({
-  getTransactions: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.transaction.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      orderBy: [
-        {
-          date: "desc",
+  getTransactionsByType: protectedProcedure
+    .input(
+      z.object({
+        type: z.nativeEnum($Enums.TransactionType),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.transaction.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          type: input.type,
         },
-      ],
-    });
-  }),
+        orderBy: [
+          {
+            date: "desc",
+          },
+        ],
+      });
+    }),
   getTransactionById: protectedProcedure
     .input(
       z.object({

@@ -1,42 +1,40 @@
+import { $Enums } from "@prisma/client";
+import Title from "antd/es/typography/Title";
 import { Suspense } from "react";
-import Link from "next/link";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
-import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { TransactionTableServer } from "~/app/_components/transactions/TransactionTable.server";
-import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
-import Title from "antd/es/typography/Title";
+import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
+import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
+import { TransactionFormServer } from "~/app/_components/transactions/TransactionForm.server";
 
-export default function TransactionListPage() {
+export default function EditIncomePage({
+  params: { transactionId },
+}: {
+  params: { transactionId: string };
+}) {
   return (
     <ProtectedRoute>
       <SidebarContainer>
         <ContentContainer
           header={
             <Title level={2} className="mb-0">
-              Transactions
+              Edit Income
             </Title>
-          }
-          action={
-            <Link href="/transactions/create">
-              <Button type="primary" icon={<PlusOutlined />}>
-                Create Transaction
-              </Button>
-            </Link>
           }
         >
           <Suspense
             fallback={
               <LoadingDetail
-                title="Loading Transactions"
+                title="Loading Income Editor"
                 description="This may take a few seconds"
               />
             }
           >
-            <TransactionTableServer />
+            <TransactionFormServer
+              type={$Enums.TransactionType.INCOME}
+              transactionId={transactionId}
+            />
           </Suspense>
         </ContentContainer>
       </SidebarContainer>

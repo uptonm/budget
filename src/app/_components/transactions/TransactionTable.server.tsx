@@ -2,10 +2,19 @@
 
 import { api } from "~/trpc/server";
 
+import { type $Enums } from "@prisma/client";
 import { TransactionTable } from "~/app/_components/transactions/TransactionTable";
 
-export async function TransactionTableServer() {
-  const transactions = await api.transaction.getTransactions.query();
+type TransactionTableServerProps = {
+  type: $Enums.TransactionType;
+};
 
-  return <TransactionTable transactions={transactions} />;
+export async function TransactionTableServer({
+  type,
+}: TransactionTableServerProps) {
+  const transactions = await api.transaction.getTransactionsByType.query({
+    type,
+  });
+
+  return <TransactionTable type={type} transactions={transactions} />;
 }

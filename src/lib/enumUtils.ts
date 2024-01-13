@@ -5,11 +5,22 @@ export namespace TransactionType {
   export function toString(type: $Enums.TransactionType) {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:
-        return "Expense";
+        return "Expenses";
       case $Enums.TransactionType.INCOME:
         return "Income";
       case $Enums.TransactionType.SAVINGS:
         return "Savings";
+    }
+  }
+
+  export function toRoute(type: $Enums.TransactionType) {
+    switch (type) {
+      case $Enums.TransactionType.EXPENSE:
+        return "/expenses";
+      case $Enums.TransactionType.INCOME:
+        return "/income";
+      case $Enums.TransactionType.SAVINGS:
+        return "/savings";
     }
   }
 }

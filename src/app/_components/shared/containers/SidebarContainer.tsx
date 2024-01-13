@@ -12,7 +12,11 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useState } from "react";
-import { CashRegisterOutlined } from "../icons";
+import {
+  CashRegisterOutlined,
+  MoneyCheckAltOutlined,
+  PiggyBankOutlined,
+} from "../icons";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -59,11 +63,18 @@ export const Sidebar: React.FC = () => {
         <TagsOutlined />,
       ),
       makeSidebarItem(
-        "Transactions",
-        "/transactions",
+        "Expenses",
+        "/expenses",
         changePath,
         <CashRegisterOutlined />,
       ),
+      makeSidebarItem(
+        "Income",
+        "/income",
+        changePath,
+        <MoneyCheckAltOutlined />,
+      ),
+      makeSidebarItem("Savings", "/savings", changePath, <PiggyBankOutlined />),
     ],
     [changePath],
   );

@@ -12,15 +12,19 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
+import { formatCurrency } from "~/lib/currencyUtils";
 import { TransactionFrequency, TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
 import { LoadingDetail } from "../shared/LoadingDetail";
 
 export type TransactionTableProps = {
+  type: $Enums.TransactionType;
   transactions: Transaction[];
 };
 
-const transactionTableColumns: ColDef<Transaction>[] = [
+const generateTransactionTableColumns = (
+  type: $Enums.TransactionType,
+): ColDef<Transaction>[] => [
   {
     headerCheckboxSelection: true,
     checkboxSelection: true,
@@ -34,12 +38,8 @@ const transactionTableColumns: ColDef<Transaction>[] = [
   },
   {
     field: "amount",
-  },
-  {
-    field: "type",
-    valueFormatter: (
-      params: ValueFormatterParams<Transaction, $Enums.TransactionType>,
-    ) => (params.value ? TransactionType.toString(params.value) : ""),
+    valueFormatter: (params: ValueFormatterParams<Transaction, number>) =>
+      formatCurrency(params.value),
   },
   {
     field: "date",
@@ -54,7 +54,7 @@ const transactionTableColumns: ColDef<Transaction>[] = [
     headerName: "Actions",
     cellRenderer: (params: BaseColDefOptionalDataParams<Transaction>) => (
       <Link
-        href={`/transactions/edit/${params.data!.id}`}
+        href={`${TransactionType.toRoute(type)}/edit/${params.data!.id}`}
         className="space-x-2"
       >
         <EditOutlined />
@@ -64,18 +64,24 @@ const transactionTableColumns: ColDef<Transaction>[] = [
   },
 ];
 
-export function TransactionTable({ transactions }: TransactionTableProps) {
+export function TransactionTable({
+  type,
+  transactions,
+}: TransactionTableProps) {
   const gridApi = useRef<GridApi>();
   const [gridReady, setGridReady] = useState(false);
   const [tableRows, setTableRows] = useState<Transaction[]>(transactions);
   const [rowSelection, setRowSelection] = useState<string[]>([]);
 
-  const { refetch } = api.transaction.getTransactions.useQuery(undefined, {
-    onSuccess: (data) => {
-      setTableRows(data);
-      gridApi.current?.hideOverlay();
+  const { refetch } = api.transaction.getTransactionsByType.useQuery(
+    { type },
+    {
+      onSuccess: (data) => {
+        setTableRows(data);
+        gridApi.current?.hideOverlay();
+      },
     },
-  });
+  );
   const { mutateAsync: deleteTransactionsFn, isLoading: deleteFnLoading } =
     api.transaction.deleteTransactions.useMutation();
 
@@ -83,7 +89,7 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
     <>
       {!gridReady && (
         <LoadingDetail
-          title="Loading Transactions"
+          title={`Loading ${TransactionType.toString(type)}}`}
           description="This may take a few seconds"
         />
       )}
@@ -96,9 +102,10 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
         )}
       >
         <AgGridReact
+          suppressRowClickSelection
           rowData={tableRows}
           rowSelection="multiple"
-          columnDefs={transactionTableColumns}
+          columnDefs={generateTransactionTableColumns(type)}
           isRowSelectable={() => true}
           onGridReady={(params) => {
             gridApi.current = params.api;
@@ -111,7 +118,9 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
         />
         <div className="ag-status-bar flex items-center p-2">
           <Popconfirm
-            title="Are you sure you want to delete the selected transactions?"
+            title={`Are you sure you want to delete the selected ${TransactionType.toString(
+              type,
+            ).toLowerCase()}?`}
             description="This action cannot be undone."
             onConfirm={async () => {
               await deleteTransactionsFn({ ids: rowSelection });
@@ -125,7 +134,7 @@ export function TransactionTable({ transactions }: TransactionTableProps) {
               loading={deleteFnLoading}
               disabled={rowSelection.length === 0}
             >
-              Delete Transactions
+              Delete {TransactionType.toString(type)}
             </Button>
           </Popconfirm>
         </div>

@@ -30,7 +30,7 @@ export const DatePicker = ({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         value={value ? moment(value) : undefined}
         onChange={(date, dateString) => {
-          void setFieldValue(name, date ? date.toISOString() : null);
+          void setFieldValue(name, date?.toDate() ?? null);
           void setFieldTouched(name, true, false);
           onChange?.(date, dateString);
         }}

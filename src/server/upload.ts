@@ -1,6 +1,6 @@
-import { createUploadthing } from "uploadthing/next";
 import type { FileRouter } from "uploadthing/next";
-import { getServerAuthSession } from "./auth";
+import { createUploadthing } from "uploadthing/next";
+// import { getServerAuthSession } from "./auth";
 
 const f = createUploadthing({
   /**

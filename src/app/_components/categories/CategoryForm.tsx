@@ -1,17 +1,18 @@
 "use client";
 
 import { $Enums, type Category } from "@prisma/client";
+import { Button, Col, Popconfirm, Row } from "antd";
 import FormItem from "antd/lib/form/FormItem";
 import classNames from "classnames";
 import { ErrorMessage, Form, FormikProvider, useFormik } from "formik";
-import { useRouter } from "next/navigation";
-import { ZodError, z } from "zod";
-import { useEffect } from "react";
-import { Button, Popconfirm } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { ZodError, z } from "zod";
 
 import { Input } from "~/app/_components/shared/form/Input";
 import Select from "~/app/_components/shared/form/Select";
+import { SubmitButton } from "~/app/_components/shared/form/SubmitButton";
 import { TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
 
@@ -21,15 +22,15 @@ const formValidationSchema = z.object({
   type: z.nativeEnum($Enums.TransactionType),
 });
 
+type FormValues = z.infer<typeof formValidationSchema>;
+
 type CategoryFormProps = {
   category: Category | null;
-  userId: string;
   clearCachesByServerAction: (path?: string) => void;
 };
 
 export function CategoryForm({
   category,
-  userId,
   clearCachesByServerAction,
 }: CategoryFormProps) {
   const router = useRouter();
@@ -41,7 +42,7 @@ export function CategoryForm({
   const { mutateAsync: deleteCategoryFn } =
     api.category.deleteCategory.useMutation();
 
-  const validateForm = (values: Omit<Category, "id">) => {
+  const validateForm = (values: FormValues) => {
     try {
       formValidationSchema.parse(values);
     } catch (error) {
@@ -49,58 +50,56 @@ export function CategoryForm({
         return error.formErrors.fieldErrors;
       }
     }
-    if (!nameIsValid) {
+    if (!!categoryWithSameName && categoryWithSameName.id !== category?.id) {
       return {
         name: `Another category called '${values.name}' already exists`,
       };
     }
   };
 
-  const formik = useFormik<Omit<Category, "id">>({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      ownerId: userId,
       name: category?.name ?? "",
       description: category?.description ?? "",
       type: category?.type ?? $Enums.TransactionType.EXPENSE,
-      ownerType: $Enums.CategoryOwnerType.USER,
     },
     validate: validateForm,
-    onSubmit: async (values, helpers) => {
+    onSubmit: async (values, helpers): Promise<Category> => {
       helpers.setSubmitting(true);
       if (category?.id) {
-        await updateCategoryFn({
+        const result = await updateCategoryFn({
           id: category.id,
           name: values.name,
           description: values.description,
           type: values.type,
         });
+        helpers.setSubmitting(false);
+        return result;
       } else {
-        await createCategoryFn({
+        const result = await createCategoryFn({
           name: values.name,
           description: values.description,
           type: values.type,
         });
+        helpers.setSubmitting(false);
+        return result;
       }
-      helpers.setSubmitting(false);
-      clearCachesByServerAction("/categories");
-      router.push("/categories");
     },
   });
 
-  const { data: nameIsValid, isFetching: nameIsValidating } =
-    api.category.getCategoryNameIsUnique.useQuery(
+  const { data: categoryWithSameName, isFetching: nameIsValidating } =
+    api.category.getCategoryByName.useQuery(
       {
         name: formik.values.name,
       },
       {
         enabled: formik.values.name?.length > 0,
-        initialData: true,
       },
     );
 
   const { values, errors, setErrors, setTouched } = formik;
   useEffect(() => {
-    if (!nameIsValid) {
+    if (!!categoryWithSameName && categoryWithSameName.id !== category?.id) {
       void setTouched({ name: true });
       setErrors({
         name: `Another category called '${values.name}' already exists`,
@@ -111,11 +110,18 @@ export function CategoryForm({
     if (errors.name) {
       setErrors({ name: undefined });
     }
-  }, [values.name, errors.name, setTouched, setErrors, nameIsValid]);
+  }, [
+    values.name,
+    errors.name,
+    setTouched,
+    setErrors,
+    categoryWithSameName,
+    category?.id,
+  ]);
 
   return (
     <FormikProvider value={formik}>
-      <Form>
+      <Form className="pt-4">
         <FormItem
           colon
           required
@@ -129,6 +135,7 @@ export function CategoryForm({
         >
           <Input name="name" fast />
         </FormItem>
+
         <FormItem
           colon
           hasFeedback
@@ -139,22 +146,30 @@ export function CategoryForm({
         >
           <Input.TextArea name="description" showCount={false} />
         </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="Type"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.type ? "error" : ""}
-          help={<ErrorMessage name="type" className="text-red" />}
-        >
-          <Select
-            name="type"
-            options={Object.keys($Enums.TransactionType).map((key) => ({
-              label: TransactionType.toString(key as $Enums.TransactionType),
-              value: key,
-            }))}
-          />
-        </FormItem>
+
+        <Row gutter={16}>
+          <Col span={6}>
+            <FormItem
+              colon
+              hasFeedback
+              label="Type"
+              labelCol={{ span: 24 }}
+              validateStatus={formik.errors.type ? "error" : ""}
+              help={<ErrorMessage name="type" className="text-red" />}
+            >
+              <Select
+                name="type"
+                className="w-full"
+                options={Object.keys($Enums.TransactionType).map((key) => ({
+                  label: TransactionType.toString(
+                    key as $Enums.TransactionType,
+                  ),
+                  value: key,
+                }))}
+              />
+            </FormItem>
+          </Col>
+        </Row>
 
         <div
           className={classNames("flex w-full items-center", {
@@ -168,6 +183,7 @@ export function CategoryForm({
               description="All transactions associated with this category will be deleted."
               onConfirm={async () => {
                 await deleteCategoryFn({ id: category.id });
+                clearCachesByServerAction("/categories");
                 router.push("/categories");
               }}
             >
@@ -180,14 +196,20 @@ export function CategoryForm({
             <Link href="/categories">
               <Button>Cancel</Button>
             </Link>
-            <Button
+            <SubmitButton
               type="primary"
-              disabled={!formik.isValid}
-              onClick={formik.submitForm}
+              disabled={!formik.dirty || !formik.isValid}
+              onSubmit={async (shouldClose) => {
+                const result = (await formik.submitForm()) as Category;
+                if (shouldClose) {
+                  clearCachesByServerAction("/categories");
+                  router.push("/categories");
+                } else {
+                  router.push(`/categories/edit/${result.id}`);
+                }
+              }}
               loading={formik.isSubmitting}
-            >
-              Submit
-            </Button>
+            />
           </div>
         </div>
       </Form>

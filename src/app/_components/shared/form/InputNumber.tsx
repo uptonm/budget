@@ -1,13 +1,12 @@
 import { InputNumber as $InputNumber } from "antd";
-import { type FieldProps } from "formik";
-import * as React from "react";
 import { type InputNumberProps as $InputNumberProps } from "antd/lib/input-number";
+import { type FieldProps } from "formik";
 import {
-  type FormikFieldProps,
   Field,
+  type FormikFieldProps,
 } from "~/app/_components/shared/form/Field";
 
-export type InputNumberProps = FormikFieldProps & $InputNumberProps;
+export type InputNumberProps = FormikFieldProps & $InputNumberProps<number>;
 
 export const InputNumber = ({
   name,

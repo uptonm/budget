@@ -1,7 +1,7 @@
 "use client";
 
 import { $Enums, type Category, type Transaction } from "@prisma/client";
-import { Button, Popconfirm } from "antd";
+import { Button, Col, Popconfirm, Row } from "antd";
 import FormItem from "antd/lib/form/FormItem";
 import classNames from "classnames";
 import { ErrorMessage, Form, FormikProvider, useFormik } from "formik";
@@ -9,30 +9,35 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ZodError, z } from "zod";
 
+import { DatePicker } from "~/app/_components/shared/form/DatePicker";
 import { Input } from "~/app/_components/shared/form/Input";
 import { InputNumber } from "~/app/_components/shared/form/InputNumber";
 import Select from "~/app/_components/shared/form/Select";
+import { SubmitButton } from "~/app/_components/shared/form/SubmitButton";
+import { formatCurrency, parseCurrency } from "~/lib/currencyUtils";
 import { TransactionFrequency, TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
-import { DatePicker } from "../shared/form/DatePicker";
 
 const formValidationSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().nullable(),
-  type: z.nativeEnum($Enums.TransactionType),
   amount: z.number().min(0.01, "Amount must be greater than 0"),
   date: z.date(),
   frequency: z.nativeEnum($Enums.TransactionFrequency),
   categoryId: z.string(),
 });
 
+type FormValues = z.infer<typeof formValidationSchema>;
+
 type TransactionFormProps = {
+  type: $Enums.TransactionType;
   transaction: Transaction | null;
   categories: Category[];
   clearCachesByServerAction: (path?: string) => void;
 };
 
 export function TransactionForm({
+  type,
   transaction,
   categories,
   clearCachesByServerAction,
@@ -46,9 +51,7 @@ export function TransactionForm({
   const { mutateAsync: deleteTransactionFn } =
     api.transaction.deleteTransaction.useMutation();
 
-  const validateForm = (
-    values: Omit<Transaction, "id" | "userId" | "isProjected">,
-  ) => {
+  const validateForm = (values: FormValues) => {
     try {
       formValidationSchema.parse(values);
     } catch (error) {
@@ -58,50 +61,50 @@ export function TransactionForm({
     }
   };
 
-  const formik = useFormik<Omit<Transaction, "id" | "userId" | "isProjected">>({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: transaction?.name ?? "",
       description: transaction?.description ?? "",
-      type: transaction?.type ?? $Enums.TransactionType.EXPENSE,
       amount: transaction?.amount ?? 5,
       date: transaction?.date ?? new Date(),
       frequency: transaction?.frequency ?? $Enums.TransactionFrequency.MONTHLY,
       categoryId: transaction?.categoryId ?? categories.at(0)!.id,
     },
     validate: validateForm,
-    onSubmit: async (values, helpers) => {
+    onSubmit: async (values, helpers): Promise<Transaction> => {
       helpers.setSubmitting(true);
       if (transaction?.id) {
-        await updateTransactionFn({
+        const result = await updateTransactionFn({
           id: transaction.id,
           name: values.name,
           description: values.description,
-          type: values.type,
+          type,
           amount: values.amount,
           date: values.date,
           frequency: values.frequency,
           categoryId: values.categoryId,
         });
+        helpers.setSubmitting(false);
+        return result;
       } else {
-        await createTransactionFn({
+        const result = await createTransactionFn({
           name: values.name,
           description: values.description,
-          type: values.type,
+          type,
           amount: values.amount,
           date: values.date,
           frequency: values.frequency,
           categoryId: values.categoryId,
         });
+        helpers.setSubmitting(false);
+        return result;
       }
-      helpers.setSubmitting(false);
-      clearCachesByServerAction("/transactions");
-      router.push("/transactions");
     },
   });
 
   return (
     <FormikProvider value={formik}>
-      <Form>
+      <Form className="pt-4">
         <FormItem
           colon
           required
@@ -113,6 +116,7 @@ export function TransactionForm({
         >
           <Input name="name" fast />
         </FormItem>
+
         <FormItem
           colon
           hasFeedback
@@ -123,84 +127,85 @@ export function TransactionForm({
         >
           <Input.TextArea name="description" showCount={false} />
         </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="type"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.type ? "error" : ""}
-          help={<ErrorMessage name="type" className="text-red" />}
-        >
-          <Select
-            name="type"
-            options={Object.keys($Enums.TransactionType).map((key) => ({
-              label: TransactionType.toString(key as $Enums.TransactionType),
-              value: key,
-            }))}
-          />
-        </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="amount"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.amount ? "error" : ""}
-          help={<ErrorMessage name="amount" className="text-red" />}
-        >
-          <InputNumber
-            name="amount"
-            formatter={(value) =>
-              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            parser={(value) => +value!.replace(/\$\s?|(,*)/g, "")}
-            min={0.01}
-            step={1}
-          />
-        </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="date"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.date ? "error" : ""}
-          help={<ErrorMessage name="date" className="text-red" />}
-        >
-          <DatePicker name="date" format="YYYY-MM-DD" />
-        </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="frequency"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.frequency ? "error" : ""}
-          help={<ErrorMessage name="frequency" className="text-red" />}
-        >
-          <Select
-            name="frequency"
-            options={Object.keys($Enums.TransactionFrequency).map((key) => ({
-              label: TransactionFrequency.toString(
-                key as $Enums.TransactionFrequency,
-              ),
-              value: key,
-            }))}
-          />
-        </FormItem>
-        <FormItem
-          colon
-          hasFeedback
-          label="category"
-          labelCol={{ span: 24 }}
-          validateStatus={formik.errors.categoryId ? "error" : ""}
-          help={<ErrorMessage name="categoryId" className="text-red" />}
-        >
-          <Select
-            name="categoryId"
-            options={categories.map((category) => ({
-              label: category.name,
-              value: category.id,
-            }))}
-          />
-        </FormItem>
+
+        <Row gutter={16}>
+          <Col span={6}>
+            <FormItem
+              colon
+              hasFeedback
+              label="Amount"
+              labelCol={{ span: 24 }}
+              validateStatus={formik.errors.amount ? "error" : ""}
+              help={<ErrorMessage name="amount" className="text-red" />}
+            >
+              <InputNumber
+                name="amount"
+                className="w-full"
+                formatter={formatCurrency}
+                parser={parseCurrency}
+                min={0.01}
+                step={1}
+              />
+            </FormItem>
+          </Col>
+
+          <Col span={6}>
+            <FormItem
+              colon
+              hasFeedback
+              label="Date"
+              labelCol={{ span: 24 }}
+              validateStatus={formik.errors.date ? "error" : ""}
+              help={<ErrorMessage name="date" className="text-red" />}
+            >
+              <DatePicker className="w-full" name="date" format="YYYY-MM-DD" />
+            </FormItem>
+          </Col>
+
+          <Col span={6}>
+            <FormItem
+              colon
+              hasFeedback
+              label="Frequency"
+              labelCol={{ span: 24 }}
+              validateStatus={formik.errors.frequency ? "error" : ""}
+              help={<ErrorMessage name="frequency" className="text-red" />}
+            >
+              <Select
+                name="frequency"
+                className="w-full"
+                options={Object.keys($Enums.TransactionFrequency).map(
+                  (key) => ({
+                    label: TransactionFrequency.toString(
+                      key as $Enums.TransactionFrequency,
+                    ),
+                    value: key,
+                  }),
+                )}
+              />
+            </FormItem>
+          </Col>
+
+          <Col span={6}>
+            <FormItem
+              colon
+              hasFeedback
+              label="Category"
+              labelCol={{ span: 24 }}
+              validateStatus={formik.errors.categoryId ? "error" : ""}
+              help={<ErrorMessage name="categoryId" className="text-red" />}
+            >
+              <Select
+                name="categoryId"
+                className="w-full"
+                options={categories.map((category) => ({
+                  label: category.name,
+                  value: category.id,
+                }))}
+              />
+            </FormItem>
+          </Col>
+        </Row>
 
         <div
           className={classNames("flex w-full items-center", {
@@ -210,11 +215,14 @@ export function TransactionForm({
         >
           {transaction?.id && (
             <Popconfirm
-              title="Are you sure you want to delete this transaction?"
+              title={`Are you sure you want to delete this ${TransactionType.toString(
+                type,
+              ).toLowerCase()}?`}
               description="This action cannot be undone."
               onConfirm={async () => {
                 await deleteTransactionFn({ id: transaction.id });
-                router.push("/transactions");
+                clearCachesByServerAction(TransactionType.toRoute(type));
+                router.push(TransactionType.toRoute(type));
               }}
             >
               <Button danger type="primary">
@@ -223,17 +231,26 @@ export function TransactionForm({
             </Popconfirm>
           )}
           <div className="inline-flex items-center space-x-2">
-            <Link href="/transactions">
+            <Link href={TransactionType.toRoute(type)}>
               <Button>Cancel</Button>
             </Link>
-            <Button
+
+            <SubmitButton
               type="primary"
-              disabled={!formik.isValid}
-              onClick={formik.submitForm}
+              disabled={!formik.dirty || !formik.isValid}
+              onSubmit={async (shouldClose) => {
+                const result = (await formik.submitForm()) as Transaction;
+                if (shouldClose) {
+                  clearCachesByServerAction(TransactionType.toRoute(type));
+                  router.push(TransactionType.toRoute(type));
+                } else {
+                  router.push(
+                    `${TransactionType.toRoute(type)}/edit/${result.id}`,
+                  );
+                }
+              }}
               loading={formik.isSubmitting}
-            >
-              Submit
-            </Button>
+            />
           </div>
         </div>
       </Form>

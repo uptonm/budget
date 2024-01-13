@@ -1,12 +1,11 @@
 "use client";
 
-import { RobotOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, RobotOutlined, UserOutlined } from "@ant-design/icons";
 import { $Enums, type Category } from "@prisma/client";
 import type { ColDef, GridApi, ValueFormatterParams } from "ag-grid-community";
 import type { BaseColDefOptionalDataParams } from "ag-grid-community/dist/lib/entities/colDef";
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
-import { EditOutlined } from "@ant-design/icons";
 import { AgGridReact } from "ag-grid-react";
 import { Button, Popconfirm } from "antd";
 import classNames from "classnames";
@@ -100,6 +99,7 @@ export function CategoryTable({ categories }: CategoryTableProps) {
         )}
       >
         <AgGridReact
+          suppressRowClickSelection
           rowData={tableRows}
           rowSelection="multiple"
           columnDefs={categoryTableColumns}

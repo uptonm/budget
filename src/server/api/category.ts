@@ -29,6 +29,38 @@ export const categoryRouter = createTRPCRouter({
       ],
     });
   }),
+  getCategoriesByTransactionType: protectedProcedure
+    .input(
+      z.object({
+        type: z.nativeEnum($Enums.TransactionType),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.category.findMany({
+        where: {
+          AND: [
+            {
+              OR: [
+                { ownerType: $Enums.CategoryOwnerType.SYSTEM },
+                { ownerId: ctx.session.user.id },
+              ],
+            },
+            { type: input.type },
+          ],
+        },
+        orderBy: [
+          {
+            ownerType: "asc",
+          },
+          {
+            type: "asc",
+          },
+          {
+            name: "asc",
+          },
+        ],
+      });
+    }),
   getCategoryById: protectedProcedure
     .input(
       z.object({
@@ -42,21 +74,20 @@ export const categoryRouter = createTRPCRouter({
         },
       });
     }),
-  getCategoryNameIsUnique: protectedProcedure
+  getCategoryByName: protectedProcedure
     .input(
       z.object({
         name: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const category = await ctx.db.category.findFirst({
+      return await ctx.db.category.findFirst({
         where: {
           name: input.name,
           ownerId: ctx.session.user.id,
           ownerType: $Enums.CategoryOwnerType.USER,
         },
       });
-      return !category;
     }),
   createCategory: protectedProcedure
     .input(

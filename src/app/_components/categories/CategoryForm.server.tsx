@@ -1,10 +1,7 @@
 "use server";
 
-import { getServerSession } from "next-auth";
-
 import { clearCachesByServerAction } from "~/app/_actions/revalidatePaths";
 import { CategoryForm } from "~/app/_components/categories/CategoryForm";
-import { authOptions } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 type CategoryFormServerProps = {
@@ -14,7 +11,6 @@ type CategoryFormServerProps = {
 export async function CategoryFormServer({
   categoryId,
 }: CategoryFormServerProps) {
-  const session = await getServerSession(authOptions);
   const category = categoryId
     ? (await api.category.getCategoryById.query({ id: categoryId })) ?? null
     : null;
@@ -22,7 +18,6 @@ export async function CategoryFormServer({
   return (
     <CategoryForm
       category={category}
-      userId={session!.user.id}
       clearCachesByServerAction={clearCachesByServerAction}
     />
   );
