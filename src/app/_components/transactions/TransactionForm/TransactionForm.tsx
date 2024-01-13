@@ -29,7 +29,7 @@ const formValidationSchema = z.object({
 
 type FormValues = z.infer<typeof formValidationSchema>;
 
-type TransactionFormProps = {
+export type TransactionFormProps = {
   type: $Enums.TransactionType;
   transaction: Transaction | null;
   categories: Category[];

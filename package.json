@@ -1,5 +1,5 @@
 {
-  "name": "app-router-sandbox",
+  "name": "budget",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -40,6 +40,7 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.0.4",
     "@svgr/webpack": "8.1.0",
     "@types/eslint": "8.56.2",
     "@types/node": "20.11.0",

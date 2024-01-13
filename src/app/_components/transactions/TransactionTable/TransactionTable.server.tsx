@@ -3,7 +3,7 @@
 import { api } from "~/trpc/server";
 
 import { type $Enums } from "@prisma/client";
-import { TransactionTable } from "~/app/_components/transactions/TransactionTable";
+import { TransactionTableLazyWrapper } from "~/app/_components/transactions/TransactionTable/TransactionTableLazyWrapper";
 
 type TransactionTableServerProps = {
   type: $Enums.TransactionType;
@@ -16,5 +16,7 @@ export async function TransactionTableServer({
     type,
   });
 
-  return <TransactionTable type={type} transactions={transactions} />;
+  return (
+    <TransactionTableLazyWrapper type={type} transactions={transactions} />
+  );
 }

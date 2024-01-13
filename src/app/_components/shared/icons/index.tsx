@@ -2,7 +2,7 @@
 
 import Icon from "@ant-design/icons";
 import type { CustomIconComponentProps } from "@ant-design/icons/lib/components/Icon";
-import { forwardRef, type ComponentType, type SVGProps } from "react";
+import { type ComponentType, type SVGProps, forwardRef } from "react";
 
 import CashRegisterSvg from "~/app/_components/shared/icons/cash-register.svg";
 import MoneyCheckAltSvg from "~/app/_components/shared/icons/money-check-alt.svg";

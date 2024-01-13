@@ -2,7 +2,7 @@
 
 import { type $Enums } from "@prisma/client";
 import { clearCachesByServerAction } from "~/app/_actions/revalidatePaths";
-import { TransactionForm } from "~/app/_components/transactions/TransactionForm";
+import { TransactionFormLazyWrapper } from "~/app/_components/transactions/TransactionForm/TransactionFormLazyWrapper";
 import { api } from "~/trpc/server";
 
 type TransactionFormServerProps = {
@@ -23,7 +23,7 @@ export async function TransactionFormServer({
   });
 
   return (
-    <TransactionForm
+    <TransactionFormLazyWrapper
       type={type}
       categories={categories}
       transaction={transaction}

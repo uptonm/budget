@@ -1,11 +1,11 @@
-import { Suspense } from "react";
 import Title from "antd/es/typography/Title";
+import { Suspense } from "react";
 
-import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
-import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { CategoryFormServer } from "~/app/_components/categories/CategoryForm.server";
+import { CategoryFormServer } from "~/app/_components/categories/CategoryForm";
 import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
+import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
+import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 
 export default function CreateCategoryPage() {
   return (

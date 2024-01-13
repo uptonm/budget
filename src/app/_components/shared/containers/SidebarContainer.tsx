@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  Loading3QuartersOutlined,
   HomeOutlined,
+  Loading3QuartersOutlined,
   TagsOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -16,7 +16,7 @@ import {
   CashRegisterOutlined,
   MoneyCheckAltOutlined,
   PiggyBankOutlined,
-} from "../icons";
+} from "~/app/_components/shared/icons";
 
 type MenuItem = Required<MenuProps>["items"][number];
 

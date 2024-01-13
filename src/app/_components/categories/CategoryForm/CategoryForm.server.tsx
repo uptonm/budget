@@ -1,7 +1,7 @@
 "use server";
 
 import { clearCachesByServerAction } from "~/app/_actions/revalidatePaths";
-import { CategoryForm } from "~/app/_components/categories/CategoryForm";
+import { CategoryForm } from "~/app/_components/categories/CategoryForm/CategoryForm";
 import { api } from "~/trpc/server";
 
 type CategoryFormServerProps = {

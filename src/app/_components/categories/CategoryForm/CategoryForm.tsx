@@ -24,7 +24,7 @@ const formValidationSchema = z.object({
 
 type FormValues = z.infer<typeof formValidationSchema>;
 
-type CategoryFormProps = {
+export type CategoryFormProps = {
   category: Category | null;
   clearCachesByServerAction: (path?: string) => void;
 };

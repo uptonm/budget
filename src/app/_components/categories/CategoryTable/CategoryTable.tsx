@@ -14,7 +14,7 @@ import { useRef, useState } from "react";
 
 import { CategoryOwnerType, TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
-import { LoadingDetail } from "../shared/LoadingDetail";
+import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 
 export type CategoryTableProps = {
   categories: Category[];

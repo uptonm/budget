@@ -1,14 +1,14 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-
-import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
-import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { CategoryTableServer } from "~/app/_components/categories/CategoryTable.server";
-import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
-import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
+import { Button } from "antd"; // TODO: Optimize imports
 import Title from "antd/es/typography/Title";
+import Link from "next/link";
+import { Suspense } from "react";
+
+import { CategoryTableServer } from "~/app/_components/categories/CategoryTable";
+import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
+import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
+import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
+import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 
 export default function CategoryListPage() {
   return (

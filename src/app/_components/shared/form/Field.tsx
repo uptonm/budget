@@ -1,6 +1,6 @@
 "use client";
 
-import { Field as FormikField, FastField, type FieldProps } from "formik";
+import { FastField, type FieldProps, Field as FormikField } from "formik";
 import * as React from "react";
 
 /**

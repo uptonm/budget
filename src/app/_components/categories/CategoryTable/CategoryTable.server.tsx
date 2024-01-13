@@ -2,7 +2,7 @@
 
 import { api } from "~/trpc/server";
 
-import { CategoryTable } from "~/app/_components/categories/CategoryTable";
+import { CategoryTable } from "~/app/_components/categories/CategoryTable/CategoryTable";
 
 export async function CategoryTableServer() {
   const categories = await api.category.getCategories.query();

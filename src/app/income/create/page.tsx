@@ -1,12 +1,12 @@
-import Title from "antd/es/typography/Title";
+import { $Enums } from "@prisma/client";
+import Title from "antd/es/typography/Title"; // TODO: Optimize imports
 import { Suspense } from "react";
 
-import { $Enums } from "@prisma/client";
 import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
 import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
-import { TransactionFormServer } from "~/app/_components/transactions/TransactionForm.server";
+import { TransactionFormServer } from "~/app/_components/transactions/TransactionForm/TransactionForm.server";
 
 export default function TrackIncomePage() {
   return (

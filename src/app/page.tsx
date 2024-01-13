@@ -1,7 +1,8 @@
+import Title from "antd/es/typography/Title"; // TODO: Optimize imports
+
 import { ContentContainer } from "~/app/_components/shared/containers/ContentContainer";
-import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 import { ProtectedRoute } from "~/app/_components/shared/containers/ProtectedRoute";
-import Title from "antd/es/typography/Title";
+import { SidebarContainer } from "~/app/_components/shared/containers/SidebarContainer";
 
 export default function HomePage() {
   return (

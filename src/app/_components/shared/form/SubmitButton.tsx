@@ -4,7 +4,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import { type DropdownButtonProps } from "antd/es/dropdown";
 import { useMemo } from "react";
-import { useBoolean } from "../hooks/UseBoolean";
+import { useBoolean } from "~/app/_components/shared/hooks/UseBoolean";
 
 type SubmitButtonProps = Omit<DropdownButtonProps, "items" | "onClick"> & {
   onSubmit: (shouldClose: boolean) => void;

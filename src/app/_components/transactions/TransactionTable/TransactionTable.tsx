@@ -15,7 +15,7 @@ import { useRef, useState } from "react";
 import { formatCurrency } from "~/lib/currencyUtils";
 import { TransactionFrequency, TransactionType } from "~/lib/enumUtils";
 import { api } from "~/trpc/react";
-import { LoadingDetail } from "../shared/LoadingDetail";
+import { LoadingDetail } from "~/app/_components/shared/LoadingDetail";
 
 export type TransactionTableProps = {
   type: $Enums.TransactionType;
