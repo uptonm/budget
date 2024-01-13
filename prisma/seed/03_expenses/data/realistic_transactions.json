@@ -1,0 +1,192 @@
+[
+  {
+    "id": "1b16398f-37af-48b0-8d0f-66ac603a8ab0",
+    "type": "EXPENSE",
+    "category": "Home",
+    "name": "New Sofa",
+    "description": "Purchasing a new living room sofa",
+    "amount": 1000,
+    "date": 1706558229,
+    "frequency": "NON_RECURRING"
+  },
+  {
+    "id": "dffac624-f889-4b8f-8294-a0aeb2e44d6e",
+    "type": "EXPENSE",
+    "category": "Transportation",
+    "name": "Car Service",
+    "description": "Annual car maintenance",
+    "amount": 300,
+    "date": 1705262229,
+    "frequency": "YEARLY"
+  },
+  {
+    "id": "b306f844-2414-444f-a500-44d144c51e9f",
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "name": "General Entertainment",
+    "description": "Movies, dining out, concerts, etc.",
+    "amount": 200,
+    "date": 1706039829,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "4536aef5-de0b-4af2-bdb4-2093b334ab27",
+    "type": "EXPENSE",
+    "category": "Subscriptions",
+    "name": "Netflix",
+    "description": "Netflix subscription",
+    "amount": 25,
+    "date": 1705435029,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "a28a9435-365d-4de9-9f6e-3248c2f2e699",
+    "type": "EXPENSE",
+    "category": "Health",
+    "name": "Health Insurance",
+    "description": null,
+    "amount": 200,
+    "date": 1705694229,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "b93d7ee6-7d97-4e0b-9eed-68e007180300",
+    "type": "EXPENSE",
+    "category": "Daily Living",
+    "name": "Coffee",
+    "description": null,
+    "amount": 10,
+    "date": 1705867029,
+    "frequency": "DAILY"
+  },
+  {
+    "id": "fac6366b-8c10-4c78-9bde-721baedac8ce",
+    "type": "EXPENSE",
+    "category": "Home",
+    "name": "Kitchen Remodel",
+    "description": "Adding a kitchen island",
+    "amount": 3000,
+    "date": 1706731029,
+    "frequency": "NON_RECURRING"
+  },
+  {
+    "id": "bba7600c-5f90-40d7-b175-a6c7c9cb174a",
+    "type": "EXPENSE",
+    "category": "Transportation",
+    "name": "Bus/Subway Pass",
+    "description": "MBTA LinkPass",
+    "amount": 90,
+    "date": 1705089429,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "cd9e3328-7e67-4a35-a721-81bd9400c6d0",
+    "type": "EXPENSE",
+    "category": "Daily Living",
+    "name": "Groceries",
+    "description": null,
+    "amount": 300,
+    "date": 1706299029,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "077ecd16-6fdb-48b6-b824-765045ddc192",
+    "type": "EXPENSE",
+    "category": "Subscriptions",
+    "name": "Spotify",
+    "description": "Spotify subscription",
+    "amount": 14.99,
+    "date": 1704743829,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "4c70854f-35e5-423b-92e2-48fabc9568bd",
+    "type": "SAVINGS",
+    "category": "Travel",
+    "name": "Vacation Fund",
+    "description": "Savings for trip to Bali",
+    "amount": 200,
+    "date": 1705435029,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "425b6b0b-6e5f-4c65-8a6a-d41f92b335af",
+    "type": "SAVINGS",
+    "category": "Education",
+    "name": "College Fund",
+    "description": "Savings for child's college education",
+    "amount": 400,
+    "date": 1704398229,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "5e3b857d-915d-4fae-bd5b-a54924391fbc",
+    "type": "SAVINGS",
+    "category": "Savings",
+    "name": "Savings Account",
+    "description": "Contribution to savings account",
+    "amount": 1000,
+    "date": 1704311829,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "1a7c642e-3bdf-4944-a953-04531b2c53c1",
+    "type": "SAVINGS",
+    "category": "Investments",
+    "name": "Schwab Account",
+    "description": "Monthly contrubiton to personal brokerage account",
+    "amount": 500,
+    "date": 1704225429,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "c9cf4c19-c753-4c3a-85ae-dfbd55c32577",
+    "type": "SAVINGS",
+    "category": "Retirement",
+    "name": "401K",
+    "description": "Monthly contribution to 401K",
+    "amount": 800,
+    "date": 1705867029,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "63b23f8a-1ff5-4f3b-aacd-12a07b8c054e",
+    "type": "SAVINGS",
+    "category": "Emergency Fund",
+    "name": "Emergency Fund",
+    "description": "Monthly contribution to emergency fund",
+    "amount": 400,
+    "date": 1705521429,
+    "frequency": "MONTHLY"
+  },
+  {
+    "id": "e9acb780-4727-4138-8886-4354ea57cc7f",
+    "type": "INCOME",
+    "category": "Interest Income",
+    "name": "Savings Account",
+    "description": "Savings account yearly interest",
+    "amount": 150,
+    "date": 1704484629,
+    "frequency": "YEARLY"
+  },
+  {
+    "id": "e0ec138e-972c-4335-b9b7-1615ccb1f22e",
+    "type": "INCOME",
+    "category": "Salary / Wages",
+    "name": "Salary",
+    "description": "Salary from employer",
+    "amount": 4000,
+    "date": 1705694229,
+    "frequency": "BI_MONTHLY"
+  },
+  {
+    "id": "f2d6cf60-76c2-4a72-a705-062007939095",
+    "type": "INCOME",
+    "category": "Dividends",
+    "name": "Dividends Transaction",
+    "description": "Description for Dividends",
+    "amount": 100,
+    "date": 1704398229,
+    "frequency": "QUARTERLY"
+  }
+]

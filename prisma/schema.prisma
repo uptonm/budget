@@ -91,10 +91,12 @@ enum TransactionType {
 }
 
 enum TransactionFrequency {
+    NON_RECURRING
     DAILY
     WEEKLY
     BI_WEEKLY
     MONTHLY
+    BI_MONTHLY
     QUARTERLY
     YEARLY
 }

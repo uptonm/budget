@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "db:push": "prisma db push",
-    "db:seed": "ts-node --compilerOptions {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts",
+    "db:seed": "ts-node --compilerOptions {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed",
     "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
