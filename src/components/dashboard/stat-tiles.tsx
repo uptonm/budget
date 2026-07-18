@@ -1,20 +1,22 @@
 "use client";
 
 import { $Enums } from "@prisma/client";
-import { isSameMonth, subMonths } from "date-fns";
+import { format, subMonths } from "date-fns";
 
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { formatCurrency } from "~/lib/currencyUtils";
 import { api } from "~/trpc/react";
 
 const sumFor = (
-  rows: { month: Date; type: $Enums.TransactionType; total: number }[],
+  rows: { month: string; type: $Enums.TransactionType; total: number }[],
   month: Date,
   type: $Enums.TransactionType,
-) =>
-  rows
-    .filter((row) => isSameMonth(row.month, month) && row.type === type)
+) => {
+  const key = format(month, "yyyy-MM");
+  return rows
+    .filter((row) => row.month === key && row.type === type)
     .reduce((acc, row) => acc + row.total, 0);
+};
 
 export function StatTiles() {
   const [cashFlow] = api.dashboard.monthlyCashFlow.useSuspenseQuery();
