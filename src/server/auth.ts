@@ -16,6 +16,9 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   secret: env.AUTH_SECRET,
+  // Derive the callback origin from the request host so preview deployments
+  // don't get pinned to the production NEXTAUTH_URL.
+  trustHost: true,
   providers: [
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
