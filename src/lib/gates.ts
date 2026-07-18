@@ -1,5 +1,3 @@
-import "server-only";
-
 import { clerkClient } from "@clerk/nextjs/server";
 
 const CACHE_TTL_MS = 60_000;
