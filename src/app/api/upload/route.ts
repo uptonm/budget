@@ -1,15 +1,12 @@
-import { createNextRouteHandler } from "uploadthing/next";
+import { createRouteHandler } from "uploadthing/next";
 
+import { env } from "~/env";
 import { uploadRouter } from "~/server/upload";
 
-// Edge works in prod, but our webhook doesn't due to request-loop-protection
-// export const runtime = "edge";
-
-export const { GET, POST } = createNextRouteHandler({
+export const { GET, POST } = createRouteHandler({
   router: uploadRouter,
   config: {
+    token: env.UPLOADTHING_TOKEN,
     callbackUrl: "/api/upload",
-    uploadthingId: process.env.UPLOADTHING_ID,
-    uploadthingSecret: process.env.UPLOADTHING_SECRET,
   },
 });

@@ -1,6 +1,8 @@
 import type { FileRouter } from "uploadthing/next";
 import { createUploadthing } from "uploadthing/next";
-// import { getServerAuthSession } from "./auth";
+import { UploadThingError } from "uploadthing/server";
+
+import { auth } from "./auth";
 
 const f = createUploadthing({
   /**
@@ -26,14 +28,13 @@ export const uploadRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(() => {
-      // const session = await getServerAuthSession();
-      // if (!session || !session.user) {
-      //   throw new Error("Unauthorized");
-      // }
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user) {
+        throw new UploadThingError("Unauthorized");
+      }
 
-      // return { userId: session.user.id };
-      return {};
+      return { userId: session.user.id };
     })
     .onUploadComplete(({ file }) => {
       console.log("File uploaded", file);
