@@ -2,24 +2,31 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 
 import { isAppGated } from "~/lib/gates";
 
-export default clerkMiddleware(async (auth) => {
-  // Preview and local environments intentionally remain public.
-  if (process.env.VERCEL_ENV !== "production") {
+export default clerkMiddleware(async (auth, request) => {
+  const path = request.nextUrl.pathname;
+  const isSignIn = path === "/signin" || path.startsWith("/signin/");
+
+  const gated =
+    process.env.VERCEL_ENV === "production" ? await isAppGated() : false;
+
+  if (gated) {
+    // Fleet lock: entire site requires a Clerk session.
+    await auth.protect();
     return;
   }
 
-  if (await isAppGated()) {
-    await auth.protect();
+  // Normal mode: app is private; /signin stays public.
+  if (!isSignIn) {
+    await auth.protect({
+      unauthenticatedUrl: new URL("/signin", request.url).toString(),
+    });
   }
 });
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for static files and Next.js internals.
-     * This avoids unnecessary Clerk work for immutable public assets.
-     */
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|json|jpe?g|png|gif|svg|webp|ico|ttf|woff2?|map)).*)",
     "/(api|trpc)(.*)",
+    "/__clerk/:path*",
   ],
 };

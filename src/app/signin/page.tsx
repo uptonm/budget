@@ -1,47 +1,30 @@
+import { SignIn } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { PiggyBank } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { auth, signIn } from "~/server/auth";
-
 export default async function SignInPage() {
-  const session = await auth();
-  if (session?.user) {
+  const { userId } = await auth();
+  if (userId) {
     redirect("/");
   }
 
   return (
-    <main className="flex min-h-svh items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="items-center text-center">
-          <div className="mb-2 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <PiggyBank className="size-7" />
-          </div>
-          <CardTitle className="text-2xl">Budget</CardTitle>
-          <CardDescription>
-            A simple budgeting app for those too lazy for spreadsheets.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            action={async () => {
-              "use server";
-              await signIn("google", { redirectTo: "/" });
-            }}
-          >
-            <Button type="submit" className="w-full">
-              Continue with Google
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <main className="flex min-h-svh flex-col items-center justify-center gap-8 bg-background p-4">
+      <div className="flex flex-col items-center text-center">
+        <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+          <PiggyBank className="size-7" />
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">Budget</h1>
+        <p className="mt-1 max-w-xs text-sm text-muted-foreground">
+          A simple budgeting app for those too lazy for spreadsheets.
+        </p>
+      </div>
+      <SignIn
+        forceRedirectUrl="/"
+        fallbackRedirectUrl="/"
+        signUpUrl="/signin"
+      />
     </main>
   );
 }
