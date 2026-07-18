@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 
+import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -73,17 +74,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-          <Toaster richColors />
-        </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+            <Toaster richColors />
+          </ThemeProvider>
+          <Analytics />
+          <SpeedInsights />
+        </ClerkProvider>
       </body>
     </html>
   );
