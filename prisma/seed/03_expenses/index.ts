@@ -1,7 +1,5 @@
-import { type $Enums, type Prisma, type PrismaClient } from "@prisma/client";
-import { type DefaultArgs } from "@prisma/client/runtime/library";
-
-import { SYSTEM_USER_EMAIL } from "../01_users";
+import type { $Enums, Prisma, PrismaClient } from "@prisma/client";
+import type { DefaultArgs } from "@prisma/client/runtime/library";
 import realisticTransactions from "./data/realistic_transactions.json";
 
 export async function seedRealisticTransactions(

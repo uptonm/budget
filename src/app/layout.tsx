@@ -1,14 +1,12 @@
 import "~/styles/globals.css";
 
-import { ConfigProvider } from "antd";
-import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
-import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
-import { ClientContainer } from "~/app/_components/shared/containers/ClientContainer";
-import StyledComponentsRegistry from "~/lib/StyledComponentsRegistry";
+import { ThemeProvider } from "~/components/theme-provider";
+import { Toaster } from "~/components/ui/sonner";
 import { TRPCReactProvider } from "~/trpc/react";
 
 const siteUrl = "https://budget.uptonm.dev";
@@ -73,19 +71,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        id="app"
-        suppressHydrationWarning
-        className={`font-sans ${inter.variable}`}
-      >
-        <StyledComponentsRegistry>
-          <ConfigProvider theme={{ hashed: false }}>
-            <TRPCReactProvider cookies={cookies().toString()}>
-              <ClientContainer>{children}</ClientContainer>
-            </TRPCReactProvider>
-          </ConfigProvider>
-        </StyledComponentsRegistry>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`font-sans ${inter.variable}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Toaster richColors />
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

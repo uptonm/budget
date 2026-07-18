@@ -1,7 +1,8 @@
-import { createTRPCRouter } from "~/server/api/trpc";
 import { categoryRouter } from "~/server/api/category";
-import { userRouter } from "~/server/api/user";
+import { dashboardRouter } from "~/server/api/dashboard";
 import { transactionRouter } from "~/server/api/transaction";
+import { createTRPCRouter } from "~/server/api/trpc";
+import { userRouter } from "~/server/api/user";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { transactionRouter } from "~/server/api/transaction";
  */
 export const appRouter = createTRPCRouter({
   category: categoryRouter,
+  dashboard: dashboardRouter,
   transaction: transactionRouter,
   user: userRouter,
 });

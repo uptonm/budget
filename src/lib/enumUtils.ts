@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import { $Enums } from "@prisma/client";
 
-export namespace TransactionType {
-  export function toString(type: $Enums.TransactionType): string {
+export const TransactionType = {
+  toString(type: $Enums.TransactionType): string {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:
         return "Expenses";
@@ -11,9 +10,20 @@ export namespace TransactionType {
       case $Enums.TransactionType.SAVINGS:
         return "Savings";
     }
-  }
+  },
 
-  export function toRoute(type: $Enums.TransactionType): string {
+  toNoun(type: $Enums.TransactionType): string {
+    switch (type) {
+      case $Enums.TransactionType.EXPENSE:
+        return "expense";
+      case $Enums.TransactionType.INCOME:
+        return "income";
+      case $Enums.TransactionType.SAVINGS:
+        return "savings";
+    }
+  },
+
+  toRoute(type: $Enums.TransactionType): string {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:
         return "/expenses";
@@ -22,11 +32,11 @@ export namespace TransactionType {
       case $Enums.TransactionType.SAVINGS:
         return "/savings";
     }
-  }
-}
+  },
+};
 
-export namespace TransactionFrequency {
-  export function toString(type: $Enums.TransactionFrequency): string {
+export const TransactionFrequency = {
+  toString(type: $Enums.TransactionFrequency): string {
     switch (type) {
       case $Enums.TransactionFrequency.NON_RECURRING:
         return "Non-Recurring";
@@ -45,16 +55,16 @@ export namespace TransactionFrequency {
       case $Enums.TransactionFrequency.YEARLY:
         return "Yearly";
     }
-  }
-}
+  },
+};
 
-export namespace CategoryOwnerType {
-  export function toString(type: $Enums.CategoryOwnerType): string {
+export const CategoryOwnerType = {
+  toString(type: $Enums.CategoryOwnerType): string {
     switch (type) {
       case $Enums.CategoryOwnerType.SYSTEM:
         return "System";
       case $Enums.CategoryOwnerType.USER:
         return "User";
     }
-  }
-}
+  },
+};

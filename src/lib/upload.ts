@@ -1,13 +1,18 @@
-import { generateComponents } from "@uploadthing/react";
-import { generateReactHelpers } from "@uploadthing/react/hooks";
+import {
+  generateReactHelpers,
+  generateUploadButton,
+  generateUploadDropzone,
+} from "@uploadthing/react";
 
 import type { OurFileRouter } from "~/server/upload";
 
-export const { UploadButton, UploadDropzone, Uploader } =
-  generateComponents<OurFileRouter>({
-    url: (process.env.VERCEL_URL ?? window.location.origin) + "/api/upload",
-  });
+export const UploadButton = generateUploadButton<OurFileRouter>({
+  url: "/api/upload",
+});
+export const UploadDropzone = generateUploadDropzone<OurFileRouter>({
+  url: "/api/upload",
+});
 
 export const { useUploadThing } = generateReactHelpers<OurFileRouter>({
-  url: (process.env.VERCEL_URL ?? window.location.origin) + "/api/upload",
+  url: "/api/upload",
 });

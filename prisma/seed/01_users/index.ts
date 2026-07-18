@@ -1,5 +1,5 @@
-import { type Prisma, type PrismaClient } from "@prisma/client";
-import { type DefaultArgs } from "@prisma/client/runtime/library";
+import type { Prisma, PrismaClient } from "@prisma/client";
+import type { DefaultArgs } from "@prisma/client/runtime/library";
 
 export const SYSTEM_USER_EMAIL = "system@budget.uptonm.dev";
 const SYSTEM_USER_NAME = "System User";

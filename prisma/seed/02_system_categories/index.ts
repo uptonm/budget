@@ -1,10 +1,10 @@
 import { $Enums, type Prisma, type PrismaClient } from "@prisma/client";
-import { type DefaultArgs } from "@prisma/client/runtime/library";
+import type { DefaultArgs } from "@prisma/client/runtime/library";
 
 import { SYSTEM_USER_EMAIL } from "../01_users";
 import systemExpenseCategories from "./data/expenses.json";
-import systemSavingsCategories from "./data/savings.json";
 import systemIncomeCategories from "./data/income.json";
+import systemSavingsCategories from "./data/savings.json";
 
 export async function seedSystemCategories(
   client: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
