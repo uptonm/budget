@@ -1,7 +1,7 @@
 "use client";
 
 import { $Enums } from "@prisma/client";
-import { addMonths, format, isSameMonth, startOfMonth } from "date-fns";
+import { addMonths, format, startOfMonth } from "date-fns";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
@@ -34,9 +34,10 @@ export function CashFlowChart() {
   const start = startOfMonth(addMonths(new Date(), -11));
   const data = Array.from({ length: 12 }, (_, index) => {
     const month = addMonths(start, index);
+    const key = format(month, "yyyy-MM");
     const totalFor = (type: $Enums.TransactionType) =>
       rows
-        .filter((row) => isSameMonth(row.month, month) && row.type === type)
+        .filter((row) => row.month === key && row.type === type)
         .reduce((acc, row) => acc + row.total, 0);
     return {
       month: format(month, "MMM"),

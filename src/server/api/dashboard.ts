@@ -11,7 +11,8 @@ import {
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 type CashFlowRow = {
-  month: Date;
+  // "YYYY-MM" — a string key so no timezone reinterpretation happens client-side
+  month: string;
   type: $Enums.TransactionType;
   total: number;
 };
@@ -44,7 +45,7 @@ export const dashboardRouter = createTRPCRouter({
   monthlyCashFlow: protectedProcedure.query(async ({ ctx }) => {
     const since = startOfMonth(addMonths(new Date(), -11));
     const rows = await ctx.db.$queryRaw<CashFlowRow[]>(Prisma.sql`
-      SELECT date_trunc('month', "date") AS month,
+      SELECT to_char(date_trunc('month', "date"), 'YYYY-MM') AS month,
              "type",
              SUM("amount")::float AS total
       FROM "Transaction"
