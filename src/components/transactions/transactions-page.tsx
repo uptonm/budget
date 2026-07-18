@@ -14,6 +14,7 @@ export function TransactionsPage({ type }: { type: $Enums.TransactionType }) {
   void api.transaction.getTransactionsByType.prefetch({ type });
 
   const label = TransactionType.toString(type);
+  const noun = TransactionType.toNoun(type);
 
   return (
     <HydrateClient>
@@ -23,7 +24,7 @@ export function TransactionsPage({ type }: { type: $Enums.TransactionType }) {
           <Button asChild>
             <Link href={`${TransactionType.toRoute(type)}/create`}>
               <Plus />
-              Track {label === "Income" ? "Income" : label.slice(0, -1)}
+              Track {noun.charAt(0).toUpperCase() + noun.slice(1)}
             </Link>
           </Button>
         }

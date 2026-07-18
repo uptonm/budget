@@ -55,57 +55,63 @@ export function CashFlowChart() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-72 w-full">
-          <BarChart data={data} barGap={2}>
-            <CartesianGrid vertical={false} strokeOpacity={0.4} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              width={56}
-              tickFormatter={(value: number) =>
-                formatCurrency(value).replace(/\.00$/, "")
-              }
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  formatter={(value, name) => (
-                    <div className="flex w-full items-center justify-between gap-4">
-                      <span className="text-muted-foreground">
-                        {chartConfig[name as keyof typeof chartConfig]?.label}
-                      </span>
-                      <span className="font-medium tabular-nums">
-                        {formatCurrency(Number(value))}
-                      </span>
-                    </div>
-                  )}
-                />
-              }
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey="income"
-              fill="var(--color-income)"
-              radius={[4, 4, 0, 0]}
-            />
-            <Bar
-              dataKey="expenses"
-              fill="var(--color-expenses)"
-              radius={[4, 4, 0, 0]}
-            />
-            <Bar
-              dataKey="savings"
-              fill="var(--color-savings)"
-              radius={[4, 4, 0, 0]}
-            />
-          </BarChart>
-        </ChartContainer>
+        {rows.length === 0 ? (
+          <p className="flex h-72 items-center justify-center text-muted-foreground text-sm">
+            No transactions in the last 12 months.
+          </p>
+        ) : (
+          <ChartContainer config={chartConfig} className="h-72 w-full">
+            <BarChart data={data} barGap={2}>
+              <CartesianGrid vertical={false} strokeOpacity={0.4} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                width={56}
+                tickFormatter={(value: number) =>
+                  formatCurrency(value).replace(/\.00$/, "")
+                }
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name) => (
+                      <div className="flex w-full items-center justify-between gap-4">
+                        <span className="text-muted-foreground">
+                          {chartConfig[name as keyof typeof chartConfig]?.label}
+                        </span>
+                        <span className="font-medium tabular-nums">
+                          {formatCurrency(Number(value))}
+                        </span>
+                      </div>
+                    )}
+                  />
+                }
+              />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar
+                dataKey="income"
+                fill="var(--color-income)"
+                radius={[4, 4, 0, 0]}
+              />
+              <Bar
+                dataKey="expenses"
+                fill="var(--color-expenses)"
+                radius={[4, 4, 0, 0]}
+              />
+              <Bar
+                dataKey="savings"
+                fill="var(--color-savings)"
+                radius={[4, 4, 0, 0]}
+              />
+            </BarChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );

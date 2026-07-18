@@ -12,6 +12,17 @@ export const TransactionType = {
     }
   },
 
+  toNoun(type: $Enums.TransactionType): string {
+    switch (type) {
+      case $Enums.TransactionType.EXPENSE:
+        return "expense";
+      case $Enums.TransactionType.INCOME:
+        return "income";
+      case $Enums.TransactionType.SAVINGS:
+        return "savings";
+    }
+  },
+
   toRoute(type: $Enums.TransactionType): string {
     switch (type) {
       case $Enums.TransactionType.EXPENSE:

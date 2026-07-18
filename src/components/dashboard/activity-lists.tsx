@@ -54,7 +54,13 @@ export function RecentTransactions() {
                   </Link>
                   <span className="text-muted-foreground text-xs">
                     {transaction.Category.name} ·{" "}
-                    {format(transaction.date, "MMM d")}
+                    {format(
+                      transaction.date,
+                      transaction.date.getFullYear() ===
+                        new Date().getFullYear()
+                        ? "MMM d"
+                        : "MMM d, yyyy",
+                    )}
                   </span>
                 </div>
                 <span

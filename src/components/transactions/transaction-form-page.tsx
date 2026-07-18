@@ -17,7 +17,9 @@ export async function TransactionFormPage({
 }: TransactionFormPageProps) {
   const [transaction, categories] = await Promise.all([
     transactionId
-      ? api.transaction.getTransactionById({ id: transactionId })
+      ? api.transaction
+          .getTransactionById({ id: transactionId })
+          .catch(() => null)
       : Promise.resolve(null),
     api.category.getCategoriesByTransactionType({ type }),
   ]);
@@ -26,8 +28,8 @@ export async function TransactionFormPage({
     notFound();
   }
 
-  const label = TransactionType.toString(type);
-  const noun = label === "Income" ? "Income" : label.slice(0, -1);
+  const lowerNoun = TransactionType.toNoun(type);
+  const noun = lowerNoun.charAt(0).toUpperCase() + lowerNoun.slice(1);
 
   return (
     <>

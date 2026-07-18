@@ -76,7 +76,7 @@ export function TransactionForm({
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const listRoute = TransactionType.toRoute(type);
-  const noun = TransactionType.toString(type).toLowerCase();
+  const noun = TransactionType.toNoun(type);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
