@@ -1,16 +1,17 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Temporary source schema for the PlanetScale → Neon data copy.
+// Mirrors schema.prisma as it existed on MySQL. Delete after cutover.
 
 generator client {
     provider = "prisma-client-js"
+    output   = "./generated/mysql-client"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DB_URL")
+    provider     = "mysql"
+    url          = env("PLANETSCALE_DB_URL")
+    relationMode = "prisma"
 }
 
-// Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
     userId            String
