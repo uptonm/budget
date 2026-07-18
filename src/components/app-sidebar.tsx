@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { useClerk } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -61,6 +61,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
   const { isMobile } = useSidebar();
   const { setTheme } = useTheme();
+  const { signOut } = useClerk();
 
   const initials =
     user.name
@@ -177,7 +178,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => void signOut({ callbackUrl: "/signin" })}
+                  onClick={() => void signOut({ redirectUrl: "/signin" })}
                 >
                   <LogOut />
                   Sign out

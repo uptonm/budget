@@ -1,3 +1,4 @@
+import { auth as clerkAuth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import { AppSidebar } from "~/components/app-sidebar";
@@ -9,6 +10,11 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { userId } = await clerkAuth();
+  if (!userId) {
+    redirect("/signin");
+  }
+
   const session = await auth();
   if (!session?.user) {
     redirect("/signin");
