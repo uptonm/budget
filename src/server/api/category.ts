@@ -187,7 +187,9 @@ export const categoryRouter = createTRPCRouter({
       if (systemCategories.length > 0) {
         throw new Error("Cannot delete system category");
       }
-      if (categories.some((category) => category.ownerId !== ctx.session.user.id)) {
+      if (
+        categories.some((category) => category.ownerId !== ctx.session.user.id)
+      ) {
         throw new Error("Unauthorized");
       }
       if (categories.length !== input.ids.length) {
