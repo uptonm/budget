@@ -157,7 +157,7 @@ export const transactionRouter = createTRPCRouter({
       }
       if (
         transactions.some(
-          (transaction) => transaction.userId === ctx.session.user.id,
+          (transaction) => transaction.userId !== ctx.session.user.id,
         )
       ) {
         throw new Error("Unauthorized");
@@ -175,6 +175,7 @@ export const transactionRouter = createTRPCRouter({
           id: {
             in: input.ids,
           },
+          userId: ctx.session.user.id,
         },
       });
     }),
